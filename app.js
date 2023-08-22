@@ -17,26 +17,10 @@ app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
 app.post("/api/movies/:id", movieHandlers.postMovie);
-app.post("/api/movies/:id", userHandlers.postUser);
+app.post("/api/users/:id", userHandlers.postUser);
 app.put("/api/movies/:id", movieHandlers.updateMovie);
-app.put("/api/movies/:id", userHandlers.updateUser);
+app.put("/api/users/:id", userHandlers.updateUser);
 
-
-app.post("/api/users", async (req, res) => {
-  try {
-    const { username, email } = req.body; // Assuming your request body has 'username' and 'email' fields
-
-    const [result] = await database.execute(
-      "INSERT INTO users (username, email) VALUES (?, ?)",
-      [username, email]
-    );
-
-    res.status(201).json({ message: "User created successfully", insertedId: result.insertId });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error creating user" });
-  }
-});
 
 app.listen(port, (err) => {
   if (err) {
