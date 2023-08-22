@@ -1,5 +1,5 @@
 const database = require("./database");
-
+const mysql = require("mysql2/promise");
 const deleteUser = (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -53,12 +53,12 @@ const postUser = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error saving the movie");
+      res.status(500).send("Error saving the user");
     });
 };
 
 const getUsers = (req, res) => {
-  const initialSql = "select * from movies";
+  const initialSql = "select * from users";
   const where = [];
   const language = req.query.language;
   const city = req.query.city;
