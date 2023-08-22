@@ -7,6 +7,7 @@ const userHandlers = require("./userHandlers")
 const { hashPassword } = require("./auth.js");
 
 const app = express();
+app.use(express.json())
 const port = process.env.APP_PORT || 5000; // Use the port from the environment variable if available
 
 app.get("/", (req, res) => {
@@ -17,7 +18,7 @@ app.get("/api/movies", movieHandlers.getMovies);
 app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
-app.post("/api/movies/:id", movieHandlers.updateMovie);
+app.post("/api/movies", movieHandlers.updateMovie);
 app.put("/api/movies/:id", movieHandlers.updateMovie);
 app.post("/api/users", hashPassword, userHandlers.postUser);
 app.put("/api/users/:id", hashPassword, userHandlers.updateUser);
