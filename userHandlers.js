@@ -5,11 +5,11 @@ const postUser = (req, res) => {
 
   database
     .query(
-      "INSERT INTO movies(firstname, lastname, email, city , language) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO users(firstname, lastname, email, city , language) VALUES (?, ?, ?, ?, ?)",
       [firstname, lastname, email, city , language]
     )
     .then(([result]) => {
-      res.location(`/api/movies/${result.insertId}`).sendStatus(201);
+      res.location(`/api/users/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
