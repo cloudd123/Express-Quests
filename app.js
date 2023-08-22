@@ -4,6 +4,7 @@ const mysql = require("mysql2/promise");
 const express = require("express");
 const movieHandlers = require("./movieHandlers"); // Make sure the path to movieHandlers is correct
 const userHandlers = require("./userHandlers")
+const { hashPassword } = require("./auth.js");
 
 const app = express();
 const port = process.env.APP_PORT || 5000; // Use the port from the environment variable if available
@@ -17,9 +18,9 @@ app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
 app.post("/api/movies/:id", movieHandlers.updateMovie);
-app.post("/api/users/:id", userHandlers.postUser);
 app.put("/api/movies/:id", movieHandlers.updateMovie);
-app.put("/api/users/:id", userHandlers.updateUser);
+app.post("/api/users", hashPassword, userHandlers.postUser);
+app.put("/api/users/:id", hashPassword, userHandlers.updateUser);
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 app.delete("/api/users/:id", userHandlers.deleteUser);
 
