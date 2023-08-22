@@ -58,8 +58,35 @@ const postUser = (req, res) => {
 };
 
 const getUsers = (req, res) => {
+  const initialSql = "select * from movies";
+  const where = [];
+  const language = req.query.language;
+  const city = req.query.city;
+  if (language) {
+    where.push({
+      column: "language",
+      value: language,
+      operator: "<=",
+    });
+  }
+
+  if (city) {
+    where.push({
+      column: "city",
+      value: city,
+      operator: "<=",
+    });
+  }
+
   database
-    .query("select * from users")
+    .query(
+      where.reduce(
+        (sql, { column, operator }, index) =>
+          `${sql} ${index === 0 ? "where" : "and"} ${column} ${operator} ?`,
+        initialSql
+      ),
+      where.map(({ value }) => value)
+    )
     .then(([users]) => {
       res.json(users);
     })
